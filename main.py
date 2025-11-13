@@ -29,4 +29,10 @@ while game_is_on:
     for i in cars:
         i.move()
 
+    # detect collision with car
+    for i in cars:
+        if player.distance(i) < 20:
+            game_is_on = False
+
+
     iteration_count += 1
