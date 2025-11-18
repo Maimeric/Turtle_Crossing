@@ -14,26 +14,25 @@ scoreboard = Scoreboard()
 screen.listen()
 screen.onkey(player.move, "Up")
 
-cars = []
-iteration_count = 0
-
+car_manager = CarManager()
 
 game_is_on = True
 while game_is_on:
     time.sleep(0.1)
     screen.update()
 
-    if iteration_count == 6:
-        cars.append(CarManager())
-        iteration_count = 0
-
-    for i in cars:
-        i.move()
+    car_manager.create_car()
+    car_manager.move()
 
     # detect collision with car
-    for i in cars:
-        if player.distance(i) < 20:
+    for car in car_manager.cars_list:
+        if player.distance(car) < 20:
             game_is_on = False
+            scoreboard.game_over()
 
+    # detect lvl up)
+    if player.check_position():
+        scoreboard.increase_lvl()
+        car_manager.increase_car_speed()
 
-    iteration_count += 1
+screen.exitonclick()
